@@ -126,9 +126,16 @@ public class MainActivity extends AppCompatActivity {
                     DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
                    // DataInputStream is = new DataInputStream(process.getInputStream());
 
+                    // for android 5.x.x version
+
+                    /*
                     outputStream.writeBytes("/system/xbin/mount -o rw,remount /system\n");
                     outputStream.writeBytes("/system/xbin/mv /sdcard/hosts /system/etc/hosts\n");
                     outputStream.writeBytes("/system/bin/chmod 644 /system/etc/hosts\n");
+                    */
+
+                    // for android 6.x.x
+                    outputStream.writeBytes("/system/xbin/mount -o rw,remount /system && /system/xbin/mv /sdcard/hosts /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts\n");
                     outputStream.flush();
 
                     outputStream.writeBytes("exit\n");

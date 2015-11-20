@@ -126,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
                     DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
                    // DataInputStream is = new DataInputStream(process.getInputStream());
 
-                    outputStream.writeBytes("mount -o rw,remount /system\n");
-                    outputStream.writeBytes("mv /sdcard/hosts /system/etc/hosts\n");
-                    outputStream.writeBytes("chmod 644 /system/etc/hosts\n");
+                    outputStream.writeBytes("/system/xbin/mount -o rw,remount /system\n");
+                    outputStream.writeBytes("/system/xbin/mv /sdcard/hosts /system/etc/hosts\n");
+                    outputStream.writeBytes("/system/bin/chmod 644 /system/etc/hosts\n");
                     outputStream.flush();
 
                     outputStream.writeBytes("exit\n");
@@ -184,9 +184,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             //super.onProgressUpdate(values);
-            downloads.setText("已经下载了 [ " + values[0] + " ]行！");
+            downloads.setText("已经下载了 [ " + values[0] + "%]");
             progressDialog.setProgress(values[0]);
-            downloads.setText(downloads.getText() + " " + length);
         }
     };
 }

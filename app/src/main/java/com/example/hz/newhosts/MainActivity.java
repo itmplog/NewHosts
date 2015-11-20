@@ -28,11 +28,13 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.InvalidPropertiesFormatException;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView downloads = null;
     private Button btn = null;
+    private Button deleteHosts = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,24 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     task.execute(new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));   //, new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));    // https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));
                 } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        deleteHosts = (Button)findViewById(R.id.delete);
+        deleteHosts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Process process = Runtime.getRuntime().exec("/system/xbin/su");
+                    DataOutputStream os = new DataOutputStream(process.getOutputStream());
+                    os.writeBytes("/system/xbin/mount -o rw,remount /system && rm -rf /system/etc/hosts\n");
+                    os.writeBytes("exit\n");
+                    os.flush();
+                    process.waitFor();
+                } catch(IOException e ){
+                    e.printStackTrace();
+                } catch (InterruptedException e){
                     e.printStackTrace();
                 }
             }

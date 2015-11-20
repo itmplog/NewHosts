@@ -18,6 +18,15 @@
         android:id="@+id/downloads"
         android:scrollbarStyle="insideOverlay"
         android:layout_below="@+id/downloadsize"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除Hosts"
+        android:id="@+id/delete"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/btn"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

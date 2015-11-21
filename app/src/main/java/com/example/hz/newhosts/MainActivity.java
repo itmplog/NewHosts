@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                Toast.makeText(getApplicationContext(), "hosts下载完成， 保存在" + Environment.getExternalStorageDirectory().toString() + "/" + "hosts", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "hosts下载完成， 保存在" + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts", Toast.LENGTH_SHORT).show();
                 try {
                     Process process =  Runtime.getRuntime().exec("/system/xbin/su");
                     //os = new DataOutputStream(process.getOutputStream());
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     */
 
                     // for android 6.x.x
-                    outputStream.writeBytes("/system/xbin/mount -o rw,remount /system && /system/xbin/mv /sdcard/hosts /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts\n");
+                    outputStream.writeBytes("/system/xbin/mount -o rw,remount /system && /system/xbin/mv " + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts" + " /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts\n");
                     outputStream.flush();
 
                     outputStream.writeBytes("exit\n");
@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             //super.onProgressUpdate(values);
+            progressDialog.setMessage("已经下载了" + values[0] + "%...");
             downloads.setText("已经下载了 [ " + values[0] + "%]");
             progressDialog.setProgress(values[0]);
         }

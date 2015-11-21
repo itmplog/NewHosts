@@ -170,6 +170,12 @@ public class MainActivity extends AppCompatActivity {
                   //  Process execute = Runtime.getRuntime().exec("screenrecord --time-limit 10 /sdcard/MyVideo.mp4");
 
                     DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
+
+                    // for respone message for textView;
+                    InputStream is = process.getInputStream();
+                    byte[] buff = new byte[1024];
+                    int readed = 0;
+
                    // DataInputStream is = new DataInputStream(process.getInputStream());
 
                     // for android 5.x.x version
@@ -182,6 +188,17 @@ public class MainActivity extends AppCompatActivity {
 
                     // for android 6.x.x
                     outputStream.writeBytes("/system/xbin/mount -o rw,remount /system && /system/xbin/mv " + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts" + " /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts\n");
+
+                    File hosts_file = new File("/system/etc/hosts");
+                    if(!hosts_file.exists()) {
+                        downloads.append("/system/etc/hosts doesnot exists!\n");
+                        outputStream.flush();
+                        outputStream.writeBytes("exit\n");
+                        return;
+                    }
+
+                    
+
                     outputStream.flush();
 
                     outputStream.writeBytes("exit\n");

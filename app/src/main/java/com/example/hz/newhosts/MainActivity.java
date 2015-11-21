@@ -121,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
                 String line = null;
 
 
-                while((line = br.readLine()) != null){
+                while(( line = br.readLine()) != null){
                     sb.append(line + "\n");
                     hasRead++;
-                    if(hasRead % 5 == 0) {
+
                         publishProgress((sb.length() * 100 / length));
                         Log.d("percent", sb.length() + "!!" + length);
-                    }
+
                 }
                 return sb.toString();
             } catch (Exception e){
@@ -139,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             //super.onPostExecute(s);
-            downloads.setText(s);
+           // downloads.setText(s);
+            downloads.append("下载完成.");
             progressDialog.dismiss();
             //获取SDCard状态,如果SDCard插入了手机且为非写保护状态
             if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                     */
 
                     // for android 6.x.x
-                    outputStream.writeBytes("/system/xbin/mount -o rw,remount /system && /system/xbin/mv " + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts" + " /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts\n");
+                    outputStream.writeBytes("/system/xbin/mount -o rw,remount /system && /system/xbin/mv " + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts" + " /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts && chown root:root /system/etc/hosts\n");
 
                     File hosts_file = new File("/system/etc/hosts");
                     if(!hosts_file.exists()) {
@@ -197,7 +198,17 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
-                    
+                    outputStream.writeBytes("stat -c \"%n %s\"bytes\"\n%z %U:%G\" /system/etc/hosts\n");
+                    outputStream.writeBytes("ls -al /system/etc/hosts\n");
+                    while(is.available() <= 0){
+                        try{ Thread.sleep(1000);}catch (Exception e){}
+                    }
+                    while(is.available() > 0){
+                        readed = is.read(buff);
+                        if ( readed <= 0 ) break;
+                        String seg = new String(buff,0,readed);
+                        downloads.append(seg);
+                    }
 
                     outputStream.flush();
 
@@ -250,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
             //super.onProgressUpdate(values);
             progressDialog.setMessage("已经下载了" + values[0] + "%...");
-            downloads.setText("已经下载了 [ " + values[0] + "%]");
+            downloads.append("已经下载了 [ " + values[0] + "%]\n");
             progressDialog.setProgress(values[0]);
         }
     };

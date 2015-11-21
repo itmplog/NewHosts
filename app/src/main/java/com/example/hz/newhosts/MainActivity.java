@@ -106,8 +106,10 @@ public class MainActivity extends AppCompatActivity {
                 while((line = br.readLine()) != null){
                     sb.append(line + "\n");
                     hasRead++;
-                    publishProgress((sb.length()*100/length));
-                    Log.d("percent", sb.length() + "!!" + length);
+                    if(hasRead % 5 == 0) {
+                        publishProgress((sb.length() * 100 / length));
+                        Log.d("percent", sb.length() + "!!" + length);
+                    }
                 }
                 return sb.toString();
             } catch (Exception e){
@@ -210,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.setMax(100);
             // Log.d("pre", length + "");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL); // 设置进度条风格
-            progressDialog.setIndeterminate(false);
+            progressDialog.setIndeterminate(true); // set the indeterminate for true  cause it will be downloaded so soon
             progressDialog.show();
         }
 

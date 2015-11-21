@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         ProgressDialog progressDialog;
         int length;
         int hasRead = 0;
+        int i = 0;
         Context mContext;
 
         @Override
@@ -125,9 +126,12 @@ public class MainActivity extends AppCompatActivity {
                     sb.append(line + "\n");
                     hasRead++;
 
-                        publishProgress((sb.length() * 100 / length));
-                        Log.d("percent", sb.length() + "!!" + length);
 
+                    if(i == sb.length() * 100 / length) {
+                        publishProgress(i++);
+
+                        Log.d("percent", sb.length() + "!!" + length);
+                    }
                 }
                 return sb.toString();
             } catch (Exception e){
@@ -140,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             //super.onPostExecute(s);
            // downloads.setText(s);
-            downloads.append("下载完成.");
+            downloads.append("下载完成.\n");
             progressDialog.dismiss();
             //获取SDCard状态,如果SDCard插入了手机且为非写保护状态
             if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -163,6 +167,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "hosts下载完成， 保存在" + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts", Toast.LENGTH_SHORT).show();
                 try {
+                    File su_file = new File("/system/xbin/su");
+                    if(! su_file.exists()){
+                        downloads.append("手机没有root， 无法替换hosts\n");
+                        return;
+                    }
                     Process process =  Runtime.getRuntime().exec("/system/xbin/su");
                     //os = new DataOutputStream(process.getOutputStream());
                     //is = new DataInputStream(process.getInputStream());
@@ -253,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.setMax(100);
             // Log.d("pre", length + "");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL); // 设置进度条风格
-            progressDialog.setIndeterminate(true); // set the indeterminate for true  cause it will be downloaded so soon
+            progressDialog.setIndeterminate(false); // set the indeterminate for true  cause it will be downloaded so soon
             progressDialog.show();
         }
 

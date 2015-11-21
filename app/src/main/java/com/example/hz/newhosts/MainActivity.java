@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
                     InputStream is = process.getInputStream();
 
                     os.writeBytes("/system/xbin/mount -o rw,remount /system && rm -rf /system/etc/hosts\n");
-                    os.writeBytes("if [ ! -e /system/etc/hosts ]\n then echo -e \"delete /system/etc/hosts done.\n\"\nfi\n");
+                    os.writeBytes("if [ ! -e /system/etc/hosts ]\n then echo -e \"delete /system/etc/hosts success.\n\"\nelse echo -e \"delete /system/etc/hosts failed.\"\nfi\n");
                     while( is.available() <= 0) {
-                        try { Thread.sleep(5000); } catch(Exception ex) {}
+                        try { Thread.sleep(1000); } catch(Exception ex) {}
                     }
                     while( is.available() > 0) {
                         int readed = 0;

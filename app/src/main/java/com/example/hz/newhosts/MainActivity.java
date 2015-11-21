@@ -1,7 +1,9 @@
 package com.example.hz.newhosts;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceCategory;
@@ -29,21 +31,30 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.InvalidPropertiesFormatException;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView downloads = null;
     private Button btn = null;
     private Button deleteHosts = null;
+    final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         downloads = (TextView)findViewById(R.id.downloads);
         downloads.setMovementMethod(ScrollingMovementMethod.getInstance());
         btn = (Button)findViewById(R.id.update);
+        int hasWriteStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+           // return;
+        }
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +110,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(getApplicationContext(), "更新hosts.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "无法写入sd卡",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
     class DownTask extends AsyncTask<URL, Integer, String>{
         ProgressDialog progressDialog;

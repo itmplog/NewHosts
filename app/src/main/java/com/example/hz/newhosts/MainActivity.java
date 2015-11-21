@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
@@ -62,7 +63,24 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Process process = Runtime.getRuntime().exec("/system/xbin/su");
                     DataOutputStream os = new DataOutputStream(process.getOutputStream());
+                    InputStream is = process.getInputStream();
+
                     os.writeBytes("/system/xbin/mount -o rw,remount /system && rm -rf /system/etc/hosts\n");
+                    os.writeBytes("if [ ! -e /system/etc/hosts ]\n then echo -e \"delete /system/etc/hosts done.\n\"\nfi\n");
+                    while( is.available() <= 0) {
+                        try { Thread.sleep(5000); } catch(Exception ex) {}
+                    }
+                    while( is.available() > 0) {
+                        int readed = 0;
+
+                        byte[] buff = new byte[4096];
+                        readed = is.read(buff);
+                        Log.d("read", String.valueOf(readed));
+                        if ( readed <= 0 ) break;
+                        String seg = new String(buff,0,readed);
+                        downloads.append(seg);
+                        Log.d("reply",seg );
+                    }
                     os.writeBytes("exit\n");
                     os.flush();
                     process.waitFor();

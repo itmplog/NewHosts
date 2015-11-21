@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             //super.onPostExecute(s);
            // downloads.setText(s);
-            downloads.append("下载完成.\n");
+            downloads.setText("下载完成.\n");
             progressDialog.dismiss();
             //获取SDCard状态,如果SDCard插入了手机且为非写保护状态
             if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
             //super.onProgressUpdate(values);
             progressDialog.setMessage("已经下载了" + values[0] + "%...");
-            downloads.append("已经下载了 [ " + values[0] + "%]\n");
+            downloads.setText("已经下载了 [ " + values[0] + "%]\n");
             progressDialog.setProgress(values[0]);
         }
     };

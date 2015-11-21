@@ -165,8 +165,8 @@ public class MainActivity extends AppCompatActivity {
                     Process process =  Runtime.getRuntime().exec("/system/xbin/su");
                     //os = new DataOutputStream(process.getOutputStream());
                     //is = new DataInputStream(process.getInputStream());
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    String line = "";
+                    //BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    //String line = "";
                   //  Process execute = Runtime.getRuntime().exec("screenrecord --time-limit 10 /sdcard/MyVideo.mp4");
 
                     DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
@@ -186,11 +186,6 @@ public class MainActivity extends AppCompatActivity {
 
                     outputStream.writeBytes("exit\n");
                     outputStream.flush();
-                    downloads.setText("");
-                    while((line = reader.readLine()) != null){
-                        downloads.setText(downloads.getText() + line);
-                        Log.d("line", line);
-                    }
                     process.waitFor();
 
 

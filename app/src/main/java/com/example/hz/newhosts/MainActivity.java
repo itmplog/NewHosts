@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     task.execute(new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));   //, new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));    // https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -66,13 +66,19 @@ public class MainActivity extends AppCompatActivity {
                     os.writeBytes("exit\n");
                     os.flush();
                     process.waitFor();
-                } catch(IOException e ){
+                } catch (IOException e) {
                     e.printStackTrace();
-                } catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
+
+        /*   settings get global captive_portal_server  get the captive_portal_server;
+        *    setting set global captive_portal_server "ii.itmp.top" can ignore this .
+        *   get this .
+        */
+
     }
 
 

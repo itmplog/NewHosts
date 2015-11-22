@@ -40,14 +40,62 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
 
+    public String runAsRoot(String[] cmds, boolean hasOutput) throws Exception {
+        Process p = Runtime.getRuntime().exec("su");
+        DataOutputStream os = new DataOutputStream(p.getOutputStream());
+        InputStream is = p.getInputStream();
+        String result = null;
+        for (String tmpCmd : cmds) {
+            os.writeBytes(tmpCmd + "\n");
+            int readed = 0;
+            byte[] buff = new byte[4096];
+           // boolean cmdRequiresAnOutput = true;
+            if (hasOutput) {
+                while (is.available() <= 0) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception ex) {
+                    }
+                }
+
+                while (is.available() > 0) {
+                    readed = is.read(buff);
+                    if (readed <= 0) break;
+                    result = new String(buff, 0, readed);
+                   // result = seg; //result is a string to show in textview
+                }
+            }
+        }
+        os.writeBytes("exit\n");
+        os.flush();
+        return result;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         downloads = (TextView)findViewById(R.id.downloads);
         downloads.setMovementMethod(ScrollingMovementMethod.getInstance());
+
+        File file = new File("/system/xbin/su");
+        if(!file.exists()){
+            downloads.setText("手机没有root， 无法进行更新hosts\n");
+            return;
+        }
+
+        /* Add Tab at ActionBar
+        *  isCaptivePortal()
+        *  clients3.google.com/generate_204
+        *  1. adb shell "settings put global captive_portal_detection_enabled 0"
+        *  2. adb shell "settings put global captive_portal_server ii.itmp.top"
+         */
+
+
+
+
+
         btn = (Button)findViewById(R.id.update);
         int hasWriteStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
@@ -78,19 +126,22 @@ public class MainActivity extends AppCompatActivity {
 
                     os.writeBytes("/system/xbin/mount -o rw,remount /system && rm -rf /system/etc/hosts\n");
                     os.writeBytes("if [ ! -e /system/etc/hosts ]\n then echo -e \"delete /system/etc/hosts success.\n\"\nelse echo -e \"delete /system/etc/hosts failed.\"\nfi\n");
-                    while( is.available() <= 0) {
-                        try { Thread.sleep(1000); } catch(Exception ex) {}
+                    while (is.available() <= 0) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (Exception ex) {
+                        }
                     }
-                    while( is.available() > 0) {
+                    while (is.available() > 0) {
                         int readed = 0;
 
                         byte[] buff = new byte[4096];
                         readed = is.read(buff);
                         Log.d("read", String.valueOf(readed));
-                        if ( readed <= 0 ) break;
-                        String seg = new String(buff,0,readed);
+                        if (readed <= 0) break;
+                        String seg = new String(buff, 0, readed);
                         downloads.append(seg);
-                        Log.d("reply",seg );
+                        Log.d("reply", seg);
                     }
                     os.writeBytes("exit\n");
                     os.flush();

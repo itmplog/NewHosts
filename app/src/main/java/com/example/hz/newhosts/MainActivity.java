@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     DataOutputStream os = new DataOutputStream(process.getOutputStream());
                     InputStream is = process.getInputStream();
 
-                    os.writeBytes("/system/xbin/mount -o rw,remount /system && rm -rf /system/etc/hosts\n");
+                    os.writeBytes("/system/bin/mount -o rw,remount /system && rm -rf /system/etc/hosts\n");
                     os.writeBytes("if [ ! -e /system/etc/hosts ]\n then echo -e \"delete /system/etc/hosts success.\n\"\nelse echo -e \"delete /system/etc/hosts failed.\"\nfi\n");
                     while (is.available() <= 0) {
                         try {
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                     */
 
                     // for android 6.x.x
-                    outputStream.writeBytes("/system/xbin/mount -o rw,remount /system && /system/xbin/mv " + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts" + " /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts && chown root:root /system/etc/hosts\n");
+                    outputStream.writeBytes("/system/bin/mount -o rw,remount /system && /system/bin/mv " + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts" + " /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts && chown root:root /system/etc/hosts\n");
 
                     File hosts_file = new File("/system/etc/hosts");
                     if(!hosts_file.exists()) {

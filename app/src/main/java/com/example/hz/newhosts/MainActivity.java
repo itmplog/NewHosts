@@ -275,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
                     // for android 6.x.x
                     outputStream.writeBytes("/system/bin/mount -o rw,remount /system && /system/bin/mv " + Environment.getExternalStorageDirectory().toString() + File.separator + "hosts" + " /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts && chown root:root /system/etc/hosts\n");
 
+                    Thread.sleep(1000);
                     File hosts_file = new File("/system/etc/hosts");
                     if(!hosts_file.exists()) {
                         downloads.append("/system/etc/hosts doesnot exists!\n");

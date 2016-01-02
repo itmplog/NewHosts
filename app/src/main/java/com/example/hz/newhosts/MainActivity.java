@@ -349,5 +349,5 @@ public class MainActivity extends AppCompatActivity {
             downloads.setText("已经下载了 [ " + values[0] + "%]\n");
             progressDialog.setProgress(values[0]);
         }
-    };
+    }
 }

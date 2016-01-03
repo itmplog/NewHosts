@@ -110,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     task.execute(new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));   //, new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));    // https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));
+                        /* Todo: update
+                        *  https://api.github.com/repos/racaljk/hosts/commits?path=hosts&page=1&per_page=1
+                        *  get the lastest commit id; and check if update existes;
+                        *  json support;
+                        */
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

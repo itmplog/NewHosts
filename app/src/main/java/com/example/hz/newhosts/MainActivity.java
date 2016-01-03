@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.preference.PreferenceCategory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -28,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -106,8 +110,53 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DownTask task = new DownTask();
 
+                /* force to access network in Main Thread */
+                if (android.os.Build.VERSION.SDK_INT > 9) {
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                }
+                URL url;
+                HttpURLConnection urlConnection = null;
+                StringBuilder jsonData = new StringBuilder();
+
+                try {
+                    url = new URL("https://api.github.com/repos/racaljk/hosts/commits?path=hosts&page=1&per_page=1");
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setReadTimeout(10000 /* milliseconds */);
+                    urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setDoInput(true);
+                    urlConnection.connect();
+
+                    //urlConnection.setDoOutput(true);
+                    //urlConnection.setChunkedStreamingMode(0);
+
+                    //OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+                    //writeStream(out);
+
+                    //InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    //readStream(in);
+
+
+                    int responseCode = urlConnection.getResponseCode();
+                    if (responseCode == 200) {
+                        BufferedReader bufferedReader = new BufferedReader(
+                                new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
+                        String line = null;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            jsonData.append(line + "\n");
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    urlConnection.disconnect();
+                }
+
+                Log.v("json", jsonData.toString());
+
+                DownTask task = new DownTask();
                 try {
                     task.execute(new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));   //, new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));    // https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));
                         /* Todo: update

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder jsonData = new StringBuilder();
 
                 try {
-                    url = new URL("https://api.github.com/repos/racaljk/hosts/commits?path=hosts&page=1&per_page=1");
+                    url = new URL("https://api.github.com/repos/itmplog/hosts/commits?path=hosts.txt&page=1&per_page=1");
                     urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setReadTimeout(10000 /* milliseconds */);
                     urlConnection.setConnectTimeout(15000 /* milliseconds */);
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if(sharedPreferences.getString("sha", null).equals(jsonRootObject.getString("sha")) && (new File("/system/etc/hosts")).exists()){
                         Toast.makeText(getApplicationContext(), "No Update hosts useful.", Toast.LENGTH_SHORT).show();
-                        //return;
+                        return;
                     }
                     sharedPreferences.edit().putString("sha", jsonRootObject.getString("sha")).commit();
                     sharedPreferences.edit().putString("update", jsonRootObject.getJSONObject("commit").getJSONObject("author").getString("date")).commit();
@@ -178,7 +178,8 @@ public class MainActivity extends AppCompatActivity {
 
                 DownTask task = new DownTask();
                 try {
-                    task.execute(new URL("http://dl.micae.top/dl/hosts.txt"));//https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));   //, new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));    // https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));
+                    task.execute(new URL("https://raw.githubusercontent.com/itmplog/hosts/master/hosts.txt"));
+                            //"http://dl.micae.top/dl/hosts.txt"));//https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));   //, new URL("https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));    // https://raw.githubusercontent.com/racaljk/hosts/master/hosts"));
                         /* Todo: update
                         *  https://api.github.com/repos/racaljk/hosts/commits?path=hosts&page=1&per_page=1
                         *  get the lastest commit id; and check if update existes;

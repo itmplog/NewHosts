@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                         sharedPreferences.edit().putString("sha", jsonRootObject.getString("sha")).commit();
                         sharedPreferences.edit().putString("update", jsonRootObject.getJSONObject("commit").getJSONObject("author").getString("date")).commit();
                     }
-                    if(sharedPreferences.getString("sha", null).equals(jsonRootObject.getString("sha"))){
+                    if(sharedPreferences.getString("sha", null).equals(jsonRootObject.getString("sha")) && (new File("/system/etc/hosts")).exists()){
                         Toast.makeText(getApplicationContext(), "No Update hosts useful.", Toast.LENGTH_SHORT).show();
                         return;
                     }

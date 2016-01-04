@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
 
+    /* todo: code update; UI update; preference update
+    *
+     */
     public String runAsRoot(String[] cmds, boolean hasOutput) throws Exception {
         Process p = Runtime.getRuntime().exec("su");
         DataOutputStream os = new DataOutputStream(p.getOutputStream());

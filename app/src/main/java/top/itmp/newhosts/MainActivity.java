@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
                     urlConnection.disconnect();
                 }
 
+                if(jsonData.toString() == null)
+                {Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();}
                 //Log.v("json", jsonData.toString());
                 try {
                     JSONArray jsonArray = new JSONArray(jsonData.toString());

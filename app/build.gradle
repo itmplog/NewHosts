@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.example.hz.newhosts"
+        applicationId "top.itmp.newhosts"
         minSdkVersion 23
         targetSdkVersion 23
         versionCode 1

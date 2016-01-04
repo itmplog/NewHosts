@@ -1,0 +1,72 @@
+[
+  {
+    "sha": "47295268db605b4cb85fd9cbe8a88fc4b3536431",
+    "commit": {
+      "author": {
+        "name": "Kevin Guan",
+        "email": "kevinguan.gm@gmail.com",
+        "date": "2015-12-21T05:33:20Z"
+      },
+      "committer": {
+        "name": "Kevin Guan",
+        "email": "kevinguan.gm@gmail.com",
+        "date": "2015-12-21T05:33:20Z"
+      },
+      "message": "根据#133，更改Google hosts; 添加一条Amazonaws hosts\n\n根据aofall在#113中提到的，更改\n\nGoogle:gstatic; Google:Googleusercontent;\nGoogle:Googleapis; m.google.com\n\n的hosts，并添加github-cloud.s3.amazonaws.com的hosts",
+      "tree": {
+        "sha": "e802d9777b2c0c6c7b16b56f84665ef3a10c1743",
+        "url": "https://api.github.com/repos/racaljk/hosts/git/trees/e802d9777b2c0c6c7b16b56f84665ef3a10c1743"
+      },
+      "url": "https://api.github.com/repos/racaljk/hosts/git/commits/47295268db605b4cb85fd9cbe8a88fc4b3536431",
+      "comment_count": 1
+    },
+    "url": "https://api.github.com/repos/racaljk/hosts/commits/47295268db605b4cb85fd9cbe8a88fc4b3536431",
+    "html_url": "https://github.com/racaljk/hosts/commit/47295268db605b4cb85fd9cbe8a88fc4b3536431",
+    "comments_url": "https://api.github.com/repos/racaljk/hosts/commits/47295268db605b4cb85fd9cbe8a88fc4b3536431/comments",
+    "author": {
+      "login": "K-Guan",
+      "id": 13862535,
+      "avatar_url": "https://avatars.githubusercontent.com/u/13862535?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/K-Guan",
+      "html_url": "https://github.com/K-Guan",
+      "followers_url": "https://api.github.com/users/K-Guan/followers",
+      "following_url": "https://api.github.com/users/K-Guan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/K-Guan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/K-Guan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/K-Guan/subscriptions",
+      "organizations_url": "https://api.github.com/users/K-Guan/orgs",
+      "repos_url": "https://api.github.com/users/K-Guan/repos",
+      "events_url": "https://api.github.com/users/K-Guan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/K-Guan/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "K-Guan",
+      "id": 13862535,
+      "avatar_url": "https://avatars.githubusercontent.com/u/13862535?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/K-Guan",
+      "html_url": "https://github.com/K-Guan",
+      "followers_url": "https://api.github.com/users/K-Guan/followers",
+      "following_url": "https://api.github.com/users/K-Guan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/K-Guan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/K-Guan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/K-Guan/subscriptions",
+      "organizations_url": "https://api.github.com/users/K-Guan/orgs",
+      "repos_url": "https://api.github.com/users/K-Guan/repos",
+      "events_url": "https://api.github.com/users/K-Guan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/K-Guan/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "85f2f1688a67b9f44db38a216b813cd3aeded6d8",
+        "url": "https://api.github.com/repos/racaljk/hosts/commits/85f2f1688a67b9f44db38a216b813cd3aeded6d8",
+        "html_url": "https://github.com/racaljk/hosts/commit/85f2f1688a67b9f44db38a216b813cd3aeded6d8"
+      }
+    ]
+  }
+]

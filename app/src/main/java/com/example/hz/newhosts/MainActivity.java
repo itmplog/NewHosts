@@ -3,11 +3,14 @@ package com.example.hz.newhosts;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -17,6 +20,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
@@ -35,6 +41,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -154,7 +162,28 @@ public class MainActivity extends AppCompatActivity {
                     urlConnection.disconnect();
                 }
 
-                Log.v("json", jsonData.toString());
+                //Log.v("json", jsonData.toString());
+                try {
+                    JSONArray jsonArray = new JSONArray(jsonData.toString());
+                    JSONObject jsonRootObject = jsonArray.getJSONObject(0);
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+
+                    if(sharedPreferences.getString("sha", null) == null){
+                        sharedPreferences.edit().putString("sha", jsonRootObject.getString("sha")).commit();
+                        sharedPreferences.edit().putString("update", jsonRootObject.getJSONObject("commit").getJSONObject("author").getString("date")).commit();
+                    }
+                    if(sharedPreferences.getString("sha", null).equals(jsonRootObject.getString("sha"))){
+                        Toast.makeText(getApplicationContext(), "No Update hosts useful.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    sharedPreferences.edit().putString("sha", jsonRootObject.getString("sha")).commit();
+                    sharedPreferences.edit().putString("update", jsonRootObject.getJSONObject("commit").getJSONObject("author").getString("date")).commit();
+
+                    //Log.v("json", jsonRootObject.getString("sha"));
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+
 
                 DownTask task = new DownTask();
                 try {

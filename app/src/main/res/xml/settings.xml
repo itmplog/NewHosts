@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+    android:title="@string/gui_interface">
+    <ListPreference
+        android:title="@string/title_theme"
+        android:summary="@string/theme"
+        android:key="theme"
+        android:defaultValue="@string/theme"
+        android:dialogTitle="@string/dialog_title_theme"
+        android:entries="@array/theme_entries"
+        android:entryValues="@array/theme_entryValues"/>
+    <ListPreference
+        android:title="@string/title_language"
+        android:summary="@string/language"
+        android:key="language"
+        android:defaultValue="@string/language"
+        android:dialogTitle="@string/dialog_title_language"
+        android:entries="@array/language_entries"
+        android:entryValues="@array/language_entryValues"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/app_name">
+        <CheckBoxPreference
+            android:title="@string/update"
+            android:summary="@string/summary_update"
+            android:key="autocheck"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

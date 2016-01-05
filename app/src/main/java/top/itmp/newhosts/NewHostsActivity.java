@@ -25,9 +25,10 @@ public class NewHostsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_hosts);
-
+/*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        */
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
@@ -155,7 +156,13 @@ public class NewHostsActivity extends AppCompatActivity {
                         }
                     };
                 case 1:
-                    return new PreferenceFragment(){};
+                    return new PreferenceFragment(){
+                        @Override
+                        public void onCreate(Bundle savedInstanceState) {
+                            super.onCreate(savedInstanceState);
+                            addPreferencesFromResource(R.xml.settings);
+                        }
+                    };
                 case 2:
                     return new Fragment(){};
             }

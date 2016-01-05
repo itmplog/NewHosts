@@ -4,4 +4,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="delete">Delete</string>
+    <string name="update">Update</string>
 </resources>

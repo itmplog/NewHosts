@@ -3,13 +3,17 @@ package top.itmp.newhosts;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.preference.PreferenceFragment;
+import android.support.annotation.Nullable;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 
 public class NewHostsActivity extends AppCompatActivity {
@@ -31,6 +35,8 @@ public class NewHostsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        mViewPager.setOffscreenPageLimit(6);
 
 /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -138,7 +144,16 @@ public class NewHostsActivity extends AppCompatActivity {
             switch (position){
                 case 0:
                 default:
-                    return   new Fragment(){};
+                    return   new Fragment(){
+                        @Nullable
+                        @Override
+                        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                            View rootView = inflater.inflate(R.layout.fragment_new_hosts, container, false);
+
+                            return rootView;
+
+                        }
+                    };
                 case 1:
                     return new PreferenceFragment(){};
                 case 2:

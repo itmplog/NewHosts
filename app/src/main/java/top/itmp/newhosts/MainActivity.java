@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
 
-    /* todo: code update; UI update; preference update
+    /* todo: code update; UI update; preference update; thread
+    *
     *
      */
     public String runAsRoot(String[] cmds, boolean hasOutput) throws Exception {
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 while (is.available() > 0) {
                     readed = is.read(buff);
                     if (readed <= 0) break;
-                    result = new String(buff, 0, readed);
+                    result += new String(buff, 0, readed);
                    // result = seg; //result is a string to show in textview
                 }
             }

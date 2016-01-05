@@ -50,7 +50,7 @@ public class NewHostsActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +59,7 @@ public class NewHostsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
+*/
     }
 
 

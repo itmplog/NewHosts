@@ -21,7 +21,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/app_name">
-        <CheckBoxPreference
+        <SwitchPreference
             android:title="@string/update"
             android:summary="@string/summary_update"
             android:key="autocheck"/>

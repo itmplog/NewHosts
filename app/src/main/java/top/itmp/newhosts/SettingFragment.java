@@ -13,17 +13,16 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.support.v4.app.ActivityCompat;
+import android.preference.SwitchPreference;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
-
 import java.io.File;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by hz on 2016/2/23.
  */
 public class SettingFragment extends PreferenceFragment {
+    private final int REQUEST_WRITE_STORAGE = 112;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
@@ -40,6 +39,26 @@ public class SettingFragment extends PreferenceFragment {
     public void onResume() {
         super.onResume();
         PreferenceManager.getDefaultSharedPreferences(getActivity()).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_WRITE_STORAGE:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    return;
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Need Permission to save file", Toast.LENGTH_SHORT).show();
+                    getPreferenceScreen().getEditor().putBoolean("isBackup", false).apply();
+                    getPreferenceScreen().findPreference("isBackup").setSummary("false");
+                    ((CheckBoxPreference)getPreferenceScreen().findPreference("isBackup")).setChecked(false);
+                    return;
+                }
+            default:
+                Toast.makeText(getActivity().getApplicationContext(), "Need Permission to save file", Toast.LENGTH_SHORT).show();
+                return;
+        }
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -97,19 +116,30 @@ public class SettingFragment extends PreferenceFragment {
 
         if (pref instanceof CheckBoxPreference) {
             CheckBoxPreference checkPref = (CheckBoxPreference) pref;
-
+                checkPref.setSummary(checkPref.isChecked() + "");
             if (checkPref.getKey().equals("isBackup") && checkPref.isChecked() && init) {
                 requestWritePermissions();
+                /*if(!(ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)){
+                    //PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(checkPref.getKey(), false).apply();
+                    checkPref.getEditor().putBoolean(checkPref.getKey(), false).apply();
+                    checkPref.setChecked(!checkPref.isChecked());
+                }*/
             }
+        }
+        if(pref instanceof SwitchPreference){
+            SwitchPreference switchPreference = (SwitchPreference) pref;
+            //switchPreference.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(switchPreference.getKey(), false) + "");
+            switchPreference.setSummary(switchPreference.isChecked() + "");
         }
     }
 
     private void requestWritePermissions() {
-        int REQUEST_WRITE_STORAGE = 112;
+
         boolean hasPermission = (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermission) {
-            ActivityCompat.requestPermissions(getActivity(),
+            requestPermissions(
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
         }
     }

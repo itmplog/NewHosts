@@ -6,7 +6,6 @@ import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -145,7 +144,7 @@ public class NewHostsActivity extends AppCompatActivity {
             switch (position){
                 case 0:
                 default:
-                    return   new Fragment(){
+                    /*return   new Fragment(){
                         @Nullable
                         @Override
                         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -154,7 +153,8 @@ public class NewHostsActivity extends AppCompatActivity {
                             return rootView;
 
                         }
-                    };
+                    };*/
+                    return new NewHostsFragment();
                 case 1:
                     return new PreferenceFragment(){
                         @Override

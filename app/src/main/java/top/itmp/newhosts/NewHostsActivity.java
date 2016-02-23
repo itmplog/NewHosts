@@ -2,11 +2,16 @@ package top.itmp.newhosts;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
@@ -57,6 +62,7 @@ public class NewHostsActivity extends AppCompatActivity {
         Configuration conf = new Configuration();
         conf.locale = locale;
         getResources().updateConfiguration(conf, getResources().getDisplayMetrics());
+
     }
 
     ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -234,4 +240,5 @@ public class NewHostsActivity extends AppCompatActivity {
             }
         }
     };
+
 }

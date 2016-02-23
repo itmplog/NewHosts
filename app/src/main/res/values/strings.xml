@@ -12,8 +12,8 @@
     <string name="dialog_title_customURL">Custom Hosts Download URL</string>
     <string name="summary_customURL">Custom Hosts Download Url</string>
     <string name="title_isBackup">IsBackup</string>
-    <string name="title_backup_file">BackupFile</string>
-    <string name="dialog_title_backup_file">Backup File Path</string>
+    <string name="title_backupFile">BackupFile</string>
+    <string name="dialog_title_backupFile">Backup File Path</string>
     <string name="title_version">Version</string>
 
     <string name="gui_interface">Interface</string>

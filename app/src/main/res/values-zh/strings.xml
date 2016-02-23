@@ -12,8 +12,8 @@
     <string name="dialog_title_customURL">自定义下载URL</string>
     <string name="summary_customURL">自定义要下载的hosts文件URL</string>
     <string name="title_isBackup">是否备份</string>
-    <string name="title_backup_file">备份文件</string>
-    <string name="dialog_title_backup_file">备份文件路径</string>
+    <string name="title_backupFile">备份文件</string>
+    <string name="dialog_title_backupFile">备份文件路径</string>
     <string name="title_version">版本</string>
 
     <string name="gui_interface">界面设置</string>

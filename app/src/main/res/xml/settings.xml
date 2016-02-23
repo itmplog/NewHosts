@@ -20,16 +20,16 @@
             android:summary="@string/isBackup" />
 
         <EditTextPreference
-            android:title="@string/title_backup_file"
-            android:defaultValue="@string/backup_file"
+            android:title="@string/title_backupFile"
+            android:defaultValue="@string/backupFile"
             android:dependency="isBackup"
-            android:dialogTitle="@string/dialog_title_backup_file"
-            android:key="backup_file"
-            android:summary="@string/backup_file" />
+            android:dialogTitle="@string/dialog_title_backupFile"
+            android:key="backupFile"
+            android:summary="@string/backupFile" />
         <Preference
             android:title="@string/title_version"
             android:summary="@string/version"
-            android:icon="@drawable/logo">
+            android:icon="@drawable/logos">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="top.itmp.preferencetest"

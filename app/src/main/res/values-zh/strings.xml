@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">NewHosts</string>
+    <string name="settings">设置</string>
+    <string name="about">关于</string>
+    <string name="reset">重置</string>
+    <string name="update">更新</string>
+    <string name="helpMessage">请点\' 重置\'来恢复默认hosts;\n请点击\'更新\'来更新最新的hosts;\n向右滑动进入设置...</string>
+
+    <string name="title_autoUpdate">自动更新</string>
+    <string name="summary_update">自动检查更新?</string>
+    <string name="title_customURL">定制下载URL</string>
+    <string name="dialog_title_customURL">自定义下载URL</string>
+    <string name="summary_customURL">自定义要下载的hosts文件URL</string>
+    <string name="title_isBackup">是否备份</string>
+    <string name="title_backup_file">备份文件</string>
+    <string name="dialog_title_backup_file">备份文件路径</string>
+    <string name="title_version">版本</string>
+
+    <string name="gui_interface">界面设置</string>
+    <string name="title_theme">主题</string>
+    <string name="dialog_title_theme">选择主题</string>
+    <string-array name="theme_entries">
+        <item>浅色主题</item>
+        <item>深色主题</item>
+    </string-array>
+    <string-array name="theme_entryValues" translatable="false">
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+    <string name="title_language">语言</string>
+
+    <string name="dialog_title_language">选择语言</string>
+    <string-array name="language_entries">
+        <item>English</item>
+        <item>简体中文</item>
+    </string-array>
+    <string-array name="language_entryValues" translatable="false">
+        <item>en</item>
+        <item>zh</item>
+    </string-array>
+
+</resources>

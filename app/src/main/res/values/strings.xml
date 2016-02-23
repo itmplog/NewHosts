@@ -4,7 +4,7 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
-    <string name="delete">Delete</string>
+    <string name="reset">Reset</string>
     <string name="update">Update</string>
 
     <string name="gui_interface">Interface</string>
@@ -31,4 +31,6 @@
         <item>zh</item>
     </string-array>
     <string name="summary_update">Auto Check for update ?</string>
+
+    <string name="helpMessage">Plz Click Update to update the hosts;\nClick Reset to restore the default hosts;\nSwipe Right go to Setting...</string>
 </resources>

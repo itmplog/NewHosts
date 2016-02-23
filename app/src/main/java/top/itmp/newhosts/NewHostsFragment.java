@@ -25,7 +25,7 @@ public class NewHostsFragment extends Fragment {
         output.setTextColor(Color.parseColor("#FFFF4081"));
         output.setText(getString(R.string.helpMessage));
 
-        checkVersionInfo(version);
+        checkHostsVersionInfo(version);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +44,7 @@ public class NewHostsFragment extends Fragment {
         return rootView;
     }
 
-    public void checkVersionInfo(TextView textView){
+    public void checkHostsVersionInfo(TextView textView){
 
     }
 }

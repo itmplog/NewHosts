@@ -15,6 +15,7 @@
     <string name="title_backupFile">BackupFile</string>
     <string name="dialog_title_backupFile">Backup File Path</string>
     <string name="title_version">Version</string>
+    <string name="title_lastUpdate">LastUpdate</string>
 
     <string name="gui_interface">Interface</string>
     <string name="title_theme">Theme</string>

@@ -5,6 +5,7 @@
     <string name="isBackup" translatable="false">false</string>
     <string name="backupFile" translatable="false"></string>
     <string name="version"></string>
+    <string name="lastUpdate"></string>
     <string name="theme" translatable="false">light</string>
     <string name="language" translatable="false">en</string>
 </resources>

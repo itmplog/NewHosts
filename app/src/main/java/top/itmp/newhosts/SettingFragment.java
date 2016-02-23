@@ -138,6 +138,13 @@ public class SettingFragment extends PreferenceFragment {
         if(pref.getKey().equals("version")){
             pref.setSummary(versionInfo(getActivity()));
         }
+        if(pref.getKey().equals("lastUpdate")){
+            try {
+                pref.setSummary(RunAsRoot.exec(new String[]{"stat -c \"%z\" /etc/hosts\n"}, true));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     private void requestWritePermissions() {

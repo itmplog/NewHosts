@@ -37,6 +37,11 @@
                 android:targetClass="top.itmp.preferencetest.KeyValueList"
                 />
         </Preference>
+        <Preference
+            android:title="@string/title_lastUpdate"
+            android:defaultValue="@string/lastUpdate"
+            android:summary="@string/lastUpdate"
+            android:key="lastUpdate"/>
     </PreferenceCategory>
     <PreferenceCategory
     android:title="@string/gui_interface">

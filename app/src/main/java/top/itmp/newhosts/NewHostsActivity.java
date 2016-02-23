@@ -2,6 +2,7 @@ package top.itmp.newhosts;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -112,8 +113,23 @@ public class NewHostsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void setTheme(int resid) {
+        //super.setTheme(resid);
+        String theme = PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "light");
+        switch (theme){
+            case "dark":
+                super.setTheme(R.style.DarkTheme);
+                break;
+            case "light":
+                super.setTheme(R.style.LightTheme);
+                break;
+            default:
+                break;
+        }
+    }
 
-/*  useless
+    /*  useless
     public static class PlaceholderFragment extends Fragment {
 
         private static final String ARG_SECTION_NUMBER = "section_number";

@@ -19,6 +19,7 @@ import android.preference.SwitchPreference;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 import java.io.File;
+import java.util.Date;
 
 /**
  * Created by hz on 2016/2/23.
@@ -139,11 +140,13 @@ public class SettingFragment extends PreferenceFragment {
             pref.setSummary(versionInfo(getActivity()));
         }
         if(pref.getKey().equals("lastUpdate")){
-            try {
+            /*try {
                 pref.setSummary(RunAsRoot.exec(new String[]{"stat -c \"%z\" /etc/hosts\n"}, true));
             }catch(Exception e){
                 e.printStackTrace();
-            }
+            }*/
+            File file = new File("/system/etc/hosts");
+            pref.setSummary(new Date(file.lastModified()) + "");
         }
     }
 

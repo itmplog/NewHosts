@@ -152,13 +152,14 @@ public class NewHostsActivity extends AppCompatActivity {
                     };*/
                     return new NewHostsFragment();
                 case 1:
-                    return new PreferenceFragment(){
+                    /*return new PreferenceFragment(){
                         @Override
                         public void onCreate(Bundle savedInstanceState) {
                             super.onCreate(savedInstanceState);
                             addPreferencesFromResource(R.xml.settings);
                         }
-                    };
+                    };*/
+                    return new SettingFragment();
                 case 2:
                     return new Fragment(){};
             }

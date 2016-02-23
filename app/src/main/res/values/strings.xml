@@ -6,10 +6,20 @@
     <string name="about">About</string>
     <string name="reset">Reset</string>
     <string name="update">Update</string>
+    <string name="helpMessage">Plz Click Update to update the hosts;\nClick Reset to restore the default hosts;\nSwipe Right go to Setting...</string>
+
+    <string name="title_autoUpdate">AutoUpdate</string>
+    <string name="summary_update">Auto Check for update ?</string>
+    <string name="title_customURL">CustomURL</string>
+    <string name="dialog_title_customURL">Custom Hosts Download URL</string>
+    <string name="summary_customURL">Custom Hosts Download Url</string>
+    <string name="title_isBackup">IsBackup</string>
+    <string name="title_backup_file">BackupFile</string>
+    <string name="dialog_title_backup_file">Backup File Path</string>
+    <string name="title_version">Version</string>
 
     <string name="gui_interface">Interface</string>
     <string name="title_theme">Theme</string>
-    <string name="theme" translatable="false">light</string>
     <string name="dialog_title_theme">Choose Theme</string>
     <string-array name="theme_entries">
         <item>Light</item>
@@ -20,7 +30,7 @@
         <item>dark</item>
     </string-array>
     <string name="title_language">Language</string>
-    <string name="language" translatable="false">en</string>
+
     <string name="dialog_title_language">Choose Language</string>
     <string-array name="language_entries">
         <item>English</item>
@@ -30,7 +40,5 @@
         <item>en</item>
         <item>zh</item>
     </string-array>
-    <string name="summary_update">Auto Check for update ?</string>
 
-    <string name="helpMessage">Plz Click Update to update the hosts;\nClick Reset to restore the default hosts;\nSwipe Right go to Setting...</string>
 </resources>

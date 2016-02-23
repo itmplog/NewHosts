@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+        android:title="@string/app_name">
+        <SwitchPreference
+            android:title="@string/title_autoUpdate"
+            android:defaultValue="@string/autoUpdate"
+            android:summary="@string/autoUpdate"
+            android:key="autoUpdate"/>
+        <EditTextPreference
+            android:title="@string/title_customURL"
+            android:defaultValue="@string/customURL"
+            android:dialogTitle="@string/dialog_title_customURL"
+            android:key="custom_url"
+            android:summary="@string/customURL" />
+        <CheckBoxPreference
+            android:title="@string/title_isBackup"
+            android:defaultValue="@string/isBackup"
+            android:key="isBackup"
+            android:summary="@string/isBackup" />
+
+        <EditTextPreference
+            android:title="@string/title_backup_file"
+            android:defaultValue="@string/backup_file"
+            android:dependency="isBackup"
+            android:dialogTitle="@string/dialog_title_backup_file"
+            android:key="backup_file"
+            android:summary="@string/backup_file" />
+        <Preference
+            android:title="@string/title_version"
+            android:summary="@string/version"
+            android:icon="@drawable/logo">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="top.itmp.preferencetest"
+                android:targetClass="top.itmp.preferencetest.KeyValueList"
+                />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory
     android:title="@string/gui_interface">
     <ListPreference
         android:title="@string/title_theme"
@@ -19,12 +56,5 @@
         android:entries="@array/language_entries"
         android:entryValues="@array/language_entryValues"/>
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/app_name">
-        <SwitchPreference
-            android:title="@string/update"
-            android:summary="@string/summary_update"
-            android:key="autocheck"/>
 
-    </PreferenceCategory>
 </PreferenceScreen>

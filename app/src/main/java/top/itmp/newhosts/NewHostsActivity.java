@@ -2,14 +2,17 @@ package top.itmp.newhosts;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.preference.PreferenceFragment;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import java.util.Locale;
 
 public class NewHostsActivity extends AppCompatActivity {
 
@@ -44,6 +47,15 @@ public class NewHostsActivity extends AppCompatActivity {
             }
         });
 */
+        String language ;
+        if((language = PreferenceManager.getDefaultSharedPreferences(this).getString("language", null)) == null) {
+            language = Locale.getDefault().getLanguage();
+        }
+        Locale locale = new Locale(language);
+        locale.setDefault(locale);
+        Configuration conf = new Configuration();
+        conf.locale = locale;
+        getResources().updateConfiguration(conf, getResources().getDisplayMetrics());
     }
 
     ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -67,12 +79,14 @@ public class NewHostsActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mViewPager.removeOnPageChangeListener(onPageChangeListener);
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mViewPager.addOnPageChangeListener(onPageChangeListener);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
@@ -184,4 +198,24 @@ public class NewHostsActivity extends AppCompatActivity {
             return null;
         }
     }
+    SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            switch (key) {
+                case "language":
+                    //Snackbar.make(getView(), "Language is set to " + sharedPreferences.getString(key, ""), Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+                    NewHostsActivity.this.finish();
+                    Intent intent = new Intent(NewHostsActivity.this, NewHostsActivity.class);
+                    startActivity(intent);
+                    break;
+                case "theme":
+                    NewHostsActivity.this.finish();
+                    Intent intent1 = new Intent(NewHostsActivity.this, NewHostsActivity.class);
+                    startActivity(intent1);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

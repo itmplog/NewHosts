@@ -28,6 +28,7 @@
             android:summary="@string/backupFile" />
         <Preference
             android:title="@string/title_version"
+            android:key="version"
             android:summary="@string/version"
             android:icon="@drawable/logos">
             <intent

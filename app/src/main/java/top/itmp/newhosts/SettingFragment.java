@@ -1,7 +1,9 @@
 package top.itmp.newhosts;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -132,6 +134,10 @@ public class SettingFragment extends PreferenceFragment {
             //switchPreference.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(switchPreference.getKey(), false) + "");
             switchPreference.setSummary(switchPreference.isChecked() + "");
         }
+
+        if(pref.getKey().equals("version")){
+            pref.setSummary(versionInfo(getActivity()));
+        }
     }
 
     private void requestWritePermissions() {
@@ -142,5 +148,15 @@ public class SettingFragment extends PreferenceFragment {
             requestPermissions(
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
         }
+    }
+    public String versionInfo(Context c){
+        String version = "";
+        try {
+            PackageInfo pi = c.getPackageManager().getPackageInfo(c.getPackageName(), 0);
+            version = pi.versionName + "-" + pi.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return version;
     }
 }

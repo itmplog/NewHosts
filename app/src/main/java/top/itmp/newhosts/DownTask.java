@@ -146,6 +146,7 @@ public class DownTask extends AsyncTask<URL, Integer, String> {
                 }
 
                 PreferenceManager.getDefaultSharedPreferences(mContext).edit().putString("lastUpdate", new Date(hosts_file.lastModified()) + "").commit();
+                NewHostsFragment.checkHostsVersionInfo(mContext);
 
                 outputStream.writeBytes("stat -c \"%n %s\"bytes\"\n%z %U:%G\" /system/etc/hosts\n");
                 outputStream.writeBytes("ls -al /system/etc/hosts\n");

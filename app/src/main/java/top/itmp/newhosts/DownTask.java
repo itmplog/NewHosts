@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 
 /**
  * Created by hz on 2016/2/23.
@@ -142,6 +144,8 @@ public class DownTask extends AsyncTask<URL, Integer, String> {
                     outputStream.writeBytes("exit\n");
                     return;
                 }
+
+                PreferenceManager.getDefaultSharedPreferences(mContext).edit().putString("lastUpdate", new Date(hosts_file.lastModified()) + "").commit();
 
                 outputStream.writeBytes("stat -c \"%n %s\"bytes\"\n%z %U:%G\" /system/etc/hosts\n");
                 outputStream.writeBytes("ls -al /system/etc/hosts\n");

@@ -21,7 +21,6 @@ import java.util.Date;
  * Created by hz on 2016/2/23.
  */
 public class NewHostsFragment extends Fragment {
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_new_hosts, container, false);
         Button reset = (Button)rootView.findViewById(R.id.reset);

@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 
 /**
  * Created by hz on 2016/2/23.
@@ -91,6 +92,7 @@ class UpdateCheck extends AsyncTask<URL, Integer, String> {
                 DownTask.downHosts(mContext, "https://raw.githubusercontent.com/itmplog/hosts/master/hosts");
                 sharedPreferences.edit().putString("sha", jsonRootObject.getString("sha")).commit();
                 sharedPreferences.edit().putString("update", jsonRootObject.getJSONObject("commit").getJSONObject("author").getString("date")).commit();
+
             }
             if(sharedPreferences.getString("sha", null).equals(jsonRootObject.getString("sha")) && (new File("/system/etc/hosts")).exists()){
                 Toast.makeText(mContext.getApplicationContext(), "No Update hosts useful.", Toast.LENGTH_SHORT).show();

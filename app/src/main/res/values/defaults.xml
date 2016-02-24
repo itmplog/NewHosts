@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="autoUpdate" translatable="false">true</string>
-    <string name="customURL" translatable="false">https://raw.githubusercontent.com/racaljk/hosts/master/hosts</string>
+    <string name="customURL" translatable="false">https://raw.githubusercontent.com/itmplog/hosts/master/hosts</string>
     <string name="isBackup" translatable="false">false</string>
     <string name="backupFile" translatable="false"></string>
     <string name="version"></string>

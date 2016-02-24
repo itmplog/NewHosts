@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 import java.io.File;
 import java.util.Date;
@@ -136,17 +137,23 @@ public class SettingFragment extends PreferenceFragment {
             switchPreference.setSummary(switchPreference.isChecked() + "");
         }
 
-        if(pref.getKey().equals("version")){
-            pref.setSummary(versionInfo(getActivity()));
-        }
-        if(pref.getKey().equals("lastUpdate")){
+        if(pref instanceof Preference) {
+            if (pref.getKey().equals("version")) {
+                String versionInfo = versionInfo(getActivity());
+                pref.getEditor().putString(pref.getKey(), versionInfo).commit();
+                pref.setSummary(versionInfo);
+            }
+            if (pref.getKey().equals("lastUpdate")) {
             /*try {
                 pref.setSummary(RunAsRoot.exec(new String[]{"stat -c \"%z\" /etc/hosts\n"}, true));
             }catch(Exception e){
                 e.printStackTrace();
             }*/
-            File file = new File("/system/etc/hosts");
-            pref.setSummary(new Date(file.lastModified()) + "");
+                File file = new File("/system/etc/hosts");
+                String lastUpdate = new Date(file.lastModified()).toString();
+                pref.getEditor().putString(pref.getKey(), lastUpdate).commit();
+                pref.setSummary(lastUpdate);
+            }
         }
     }
 

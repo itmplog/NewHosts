@@ -29,6 +29,7 @@
         <Preference
             android:title="@string/title_version"
             android:key="version"
+            android:defaultValue="@string/version"
             android:summary="@string/version"
             android:icon="@drawable/logos">
             <intent

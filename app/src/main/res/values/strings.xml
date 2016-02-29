@@ -39,5 +39,6 @@
         <item>en</item>
         <item>zh</item>
     </string-array>
-
+    <string name="about_info">About</string>
+    <string name="app_version">version %1$s</string>
 </resources>

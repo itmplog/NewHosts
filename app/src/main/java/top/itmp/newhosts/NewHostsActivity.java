@@ -191,7 +191,7 @@ public class NewHostsActivity extends AppCompatActivity {
                     };*/
                     return new SettingFragment();
                 case 2:
-                    return new Fragment(){};
+                    return new AboutFragment();
             }
         }
 

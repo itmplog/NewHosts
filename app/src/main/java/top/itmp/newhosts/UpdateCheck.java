@@ -16,7 +16,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Date;
 
 /**
  * Created by hz on 2016/2/23.

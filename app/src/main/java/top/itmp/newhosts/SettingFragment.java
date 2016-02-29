@@ -17,7 +17,6 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.widget.Toast;
 import java.io.File;
 import java.util.Date;
@@ -166,7 +165,7 @@ public class SettingFragment extends PreferenceFragment {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
         }
     }
-    public String versionInfo(Context c){
+    public static String versionInfo(Context c){
         String version = "";
         try {
             PackageInfo pi = c.getPackageManager().getPackageInfo(c.getPackageName(), 0);

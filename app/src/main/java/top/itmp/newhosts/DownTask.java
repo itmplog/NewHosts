@@ -136,16 +136,17 @@ public class DownTask extends AsyncTask<URL, Integer, String> {
                 // for android 6.x.x
                 outputStream.writeBytes("/system/bin/mount -o rw,remount /system && /system/bin/cp " + mContext.getFilesDir().toString() + File.separator + "hosts" + " /system/etc/hosts && /system/bin/chmod 644 /system/etc/hosts && chown root:root /system/etc/hosts\n");
 
-                Thread.sleep(1000);
+                Thread.sleep(1500);
                 File hosts_file = new File("/system/etc/hosts");
                 if(!hosts_file.exists()) {
                     //downloads.append("/system/etc/hosts doesnot exists!\n");
+                    Toast.makeText(mContext.getApplicationContext(), "hosts not existsxx", Toast.LENGTH_SHORT).show();
                     outputStream.flush();
                     outputStream.writeBytes("exit\n");
                     return;
                 }
 
-                PreferenceManager.getDefaultSharedPreferences(mContext).edit().putString("lastUpdate", new Date(hosts_file.lastModified()) + "").commit();
+                PreferenceManager.getDefaultSharedPreferences(mContext).edit().putString("lastUpdate", new Date(hosts_file.lastModified()) + "").apply();
                 NewHostsFragment.checkHostsVersionInfo(mContext);
 
                 outputStream.writeBytes("stat -c \"%n %s\"bytes\"\n%z %U:%G\" /system/etc/hosts\n");

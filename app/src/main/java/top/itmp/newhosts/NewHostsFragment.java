@@ -64,7 +64,11 @@ public class NewHostsFragment extends Fragment {
 
     public static void checkHostsVersionInfo(Context context){
         File file = new File("/system/etc/hosts");
-        version.setText("Last Modified Time:\n\t" + new Date(file.lastModified()));
+        if(!file.exists()){
+            version.setText("Last Modified Time:\n\t" + "The hosts files doesn't exists.");
+        } else {
+            version.setText("Last Modified Time:\n\t" + new Date(file.lastModified()));
+        }
         String checkedUpdate = PreferenceManager.getDefaultSharedPreferences(context).getString("update", null);
         if(checkedUpdate != null){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");

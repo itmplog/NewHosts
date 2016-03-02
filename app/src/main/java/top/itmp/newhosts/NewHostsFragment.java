@@ -2,7 +2,6 @@ package top.itmp.newhosts;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -80,7 +79,8 @@ public class NewHostsFragment extends Fragment {
         } else {
             version.setText("Last Modified Time:\n\t" + new Date(file.lastModified()));
         }
-        String checkedUpdate = PreferenceManager.getDefaultSharedPreferences(main).getString("update", null);
+        String checkedUpdate = getSharedPreference().getString("update", null);
+        //PreferenceManager.getDefaultSharedPreferences(main).getString("update", null);
         if(checkedUpdate != null){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
             try {
@@ -100,7 +100,8 @@ public class NewHostsFragment extends Fragment {
                 if (original.getParentFile().exists()) {
                     original.getParentFile().mkdir();
                 }
-                String originalMd5 = PreferenceManager.getDefaultSharedPreferences(main).getString("original", null);
+                String originalMd5 = getSharedPreference().getString("original", null);
+                // PreferenceManager.getDefaultSharedPreferences(main).getString("original", null);
                 if(!original.exists() || original.exists() && !MD5.checkMD5(originalMd5, original)) {
                     //original.delete();
                     Log.v("vvv", "hehe");
@@ -117,7 +118,8 @@ public class NewHostsFragment extends Fragment {
                                     "::1 localhost";
                             out.write(tmp.getBytes());
                             out.close();
-                            PreferenceManager.getDefaultSharedPreferences(main).edit().putString("original", MD5.calculateMD5(original)).commit();
+                            getSpEditor().putString("original", MD5.calculateMD5(original)).commit();
+                            //PreferenceManager.getDefaultSharedPreferences(main).edit().putString("original", MD5.calculateMD5(original)).commit();
                             //debug
                         /*if(!original.exists()){
                             main.runOnUiThread(new Runnable() {

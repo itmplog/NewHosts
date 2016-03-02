@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,36 +99,62 @@ public class NewHostsFragment extends Fragment {
                 if (original.getParentFile().exists()) {
                     original.getParentFile().mkdir();
                 }
-                OutputStream out = null;
+                String originalMd5 = PreferenceManager.getDefaultSharedPreferences(main).getString("original", null);
+                if(!original.exists() || original.exists() && !MD5.checkMD5(originalMd5, original)) {
+                    //original.delete();
+                    Log.v("vvv", "hehe");
+                        OutputStream out = null;
 
-                try {
-                    out = new FileOutputStream(original);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                        try {
+                            out = new FileOutputStream(original);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            String tmp = "127.0.0.1 localhost\n" +
+                                    "::1 localhost";
+                            out.write(tmp.getBytes());
+                            out.close();
+                            PreferenceManager.getDefaultSharedPreferences(main).edit().putString("original", MD5.calculateMD5(original)).commit();
+                            //debug
+                        /*if(!original.exists()){
+                            main.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(main.getApplicationContext(), "No no no", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }*/
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                 }
-
                 try {
-                    String tmp = "127.0.0.1 localhost\n" +
-                            "::1 localhost";
-                    out.write(tmp.getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    Thread.sleep(1500);
                     Process process = Runtime.getRuntime().exec("/system/xbin/su");
                     DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
 
                     outputStream.writeBytes("/system/bin/mount -o rw,remount /system && /system/bin/cp " + main.getFilesDir().toString() + File.separator + "original" + " /system/etc/hosts");
-                    Date date = new Date(new File("/system/etc/hosts").lastModified());
-                    final long seconds = new Date().getTime() - date.getTime();
+                    outputStream.flush();
+                    outputStream.writeBytes("exit\n");
+                    Thread.sleep(1500);
+                    // checkMD5
 
-                    if(seconds < 10000){
+                    File hosts = new File("/system/etc/hosts");
+                    final String md5 = MD5.calculateMD5(original);
+                    if(!hosts.exists()){
                         main.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(main.getApplicationContext(), "Reset done." + seconds, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(main.getApplicationContext(), "Reset hosts to default failed.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }else if(MD5.checkMD5(md5, hosts)){
+                        main.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(main.getApplicationContext(), "Reset done. md5: " + md5, Toast.LENGTH_SHORT).show();
+                                checkHostsVersionInfo();
                             }
                         });
 

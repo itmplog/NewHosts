@@ -3,6 +3,7 @@ package top.itmp.newhosts;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -166,5 +167,12 @@ public class NewHostsFragment extends Fragment {
                 }
             }
         }).start();
+    }
+
+    public static SharedPreferences getSharedPreference(){
+        return PreferenceManager.getDefaultSharedPreferences(main);
+    }
+    public static SharedPreferences.Editor getSpEditor(){
+        return PreferenceManager.getDefaultSharedPreferences(main).edit();
     }
 }

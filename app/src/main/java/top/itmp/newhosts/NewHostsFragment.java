@@ -194,4 +194,12 @@ public class NewHostsFragment extends Fragment {
     public static SharedPreferences.Editor getSpEditor(){
         return PreferenceManager.getDefaultSharedPreferences(main).edit();
     }
+    public static void runOnUiThread(final String toast){
+        main.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(main.getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

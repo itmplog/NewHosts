@@ -102,25 +102,25 @@ public class NewHostsFragment extends Fragment {
                 }
                 String originalMd5 = getSharedPreference().getString("original", null);
                 // PreferenceManager.getDefaultSharedPreferences(main).getString("original", null);
-                if(!original.exists() || original.exists() && !MD5.checkMD5(originalMd5, original)) {
+                if (!original.exists() || original.exists() && !MD5.checkMD5(originalMd5, original)) {
                     //original.delete();
                     Log.v("vvv", "hehe");
-                        OutputStream out = null;
+                    OutputStream out = null;
 
-                        try {
-                            out = new FileOutputStream(original);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        out = new FileOutputStream(original);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
 
-                        try {
-                            String tmp = "127.0.0.1 localhost\n" +
-                                    "::1 localhost";
-                            out.write(tmp.getBytes());
-                            out.close();
-                            getSpEditor().putString("original", MD5.calculateMD5(original)).commit();
-                            //PreferenceManager.getDefaultSharedPreferences(main).edit().putString("original", MD5.calculateMD5(original)).commit();
-                            //debug
+                    try {
+                        String tmp = "127.0.0.1 localhost\n" +
+                                "::1 localhost";
+                        out.write(tmp.getBytes());
+                        out.close();
+                        getSpEditor().putString("original", MD5.calculateMD5(original)).commit();
+                        //PreferenceManager.getDefaultSharedPreferences(main).edit().putString("original", MD5.calculateMD5(original)).commit();
+                        //debug
                         /*if(!original.exists()){
                             main.runOnUiThread(new Runnable() {
                                 @Override
@@ -129,43 +129,60 @@ public class NewHostsFragment extends Fragment {
                                 }
                             });
                         }*/
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                }
-                try {
-                    Process process = Runtime.getRuntime().exec("/system/xbin/su");
-                    DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
-
-                    outputStream.writeBytes("/system/bin/mount -o rw,remount /system && /system/bin/cp " + main.getFilesDir().toString() + File.separator + "original" + " /system/etc/hosts");
-                    outputStream.flush();
-                    outputStream.writeBytes("exit\n");
-                    Thread.sleep(1500);
-                    // checkMD5
-
-                    File hosts = new File("/system/etc/hosts");
-                    final String md5 = MD5.calculateMD5(original);
-                    if(!hosts.exists()){
-                        main.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(main.getApplicationContext(), "Reset hosts to default failed.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }else if(MD5.checkMD5(md5, hosts)){
-                        main.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(main.getApplicationContext(), "Reset done. md5: " + md5, Toast.LENGTH_SHORT).show();
-                                checkHostsVersionInfo();
-                            }
-                        });
-
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e){
-                    e.printStackTrace();
+                }
+                File hosts = new File("/system/etc/hosts");
+                //final String md5 = MD5.calculateMD5(original);
+                final String md5 = getSharedPreference().getString("original", null);
+
+                if (hosts.exists() && MD5.checkMD5(md5, hosts)) {
+                    main.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(main.getApplicationContext(), main.getString(R.string.already_reset), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    try {
+                        Process process = Runtime.getRuntime().exec("/system/xbin/su");
+                        DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
+
+                        outputStream.writeBytes("/system/bin/mount -o rw,remount /system && /system/bin/cp " + main.getFilesDir().toString() + File.separator + "original" + " /system/etc/hosts"
+                                + "&& /system/bin/chmod 644 /system/etc/hosts && chown root:root /system/etc/hosts\n");
+                        outputStream.writeBytes("sync");
+
+                        outputStream.writeBytes("exit\n");
+                        outputStream.flush();
+                        //process.waitFor();
+                        outputStream.close();
+                        Thread.sleep(1000);
+                        // checkMD5
+
+
+                        if (!hosts.exists()) {
+                            main.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(main.getApplicationContext(), main.getString(R.string.reset_host_failed), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else if (MD5.checkMD5(md5, hosts)) {
+                            main.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(main.getApplicationContext(), main.getString(R.string.reset_done) + "\nmd5: " + md5, Toast.LENGTH_SHORT).show();
+                                    checkHostsVersionInfo();
+                                }
+                            });
+
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }).start();

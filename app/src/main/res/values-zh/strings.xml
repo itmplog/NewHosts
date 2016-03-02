@@ -41,4 +41,7 @@
     </string-array>
     <string name="about_info">关于</string>
     <string name="app_version">版本 %1$s</string>
+    <string name="reset_host_failed">重置为默认hosts失败</string>
+    <string name="reset_done">重置为默认hosts.</string>
+    <string name="already_reset">已经为默认hosts了.</string>
 </resources>

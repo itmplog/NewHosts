@@ -41,4 +41,7 @@
     </string-array>
     <string name="about_info">About</string>
     <string name="app_version">version %1$s</string>
+    <string name="reset_host_failed">Reset hosts to default failed.</string>
+    <string name="reset_done">Reset hosts done.</string>
+    <string name="already_reset">Already Reset to Default.</string>
 </resources>

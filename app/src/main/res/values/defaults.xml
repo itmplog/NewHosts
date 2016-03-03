@@ -7,5 +7,5 @@
     <string name="version"></string>
     <string name="lastUpdate"></string>
     <string name="theme" translatable="false">light</string>
-    <string name="language" translatable="false">en</string>
+    <string name="language" translatable="false"></string>
 </resources>

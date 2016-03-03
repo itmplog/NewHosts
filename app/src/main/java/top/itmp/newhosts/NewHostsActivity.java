@@ -1,28 +1,32 @@
 package top.itmp.newhosts;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import java.util.Locale;
+
+import top.itmp.newhosts.util.Utils;
 
 public class NewHostsActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    public static Activity main = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_hosts);
+        main = NewHostsActivity.this;
 /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -37,6 +41,7 @@ public class NewHostsActivity extends AppCompatActivity {
 
         mViewPager.setOffscreenPageLimit(6);
 
+        Utils.setLocale(this);
 /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +52,10 @@ public class NewHostsActivity extends AppCompatActivity {
             }
         });
 */
+        /*
+        *  Get Locale & set Language:
+        *  Move to util.Utils
+        *
         String language ;
         if((language = PreferenceManager.getDefaultSharedPreferences(this).getString("language", null)) == null) {
             language = Locale.getDefault().getLanguage();
@@ -56,7 +65,7 @@ public class NewHostsActivity extends AppCompatActivity {
         Configuration conf = new Configuration();
         conf.locale = locale;
         getResources().updateConfiguration(conf, getResources().getDisplayMetrics());
-
+        */
     }
 
     ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -80,14 +89,14 @@ public class NewHostsActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mViewPager.removeOnPageChangeListener(onPageChangeListener);
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        Utils.getSp(this).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mViewPager.addOnPageChangeListener(onPageChangeListener);
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        Utils.getSp(this).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
@@ -116,7 +125,7 @@ public class NewHostsActivity extends AppCompatActivity {
     @Override
     public void setTheme(int resid) {
         //super.setTheme(resid);
-        String theme = PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "light");
+        String theme = Utils.getSp(this).getString("theme", "light");
         switch (theme){
             case "dark":
                 super.setTheme(R.style.DarkTheme);
@@ -218,11 +227,17 @@ public class NewHostsActivity extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             switch (key) {
+                /*
+                 * Do not restart activity after language changed
+                 */
                 case "language":
                     //Snackbar.make(getView(), "Language is set to " + sharedPreferences.getString(key, ""), Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-                    NewHostsActivity.this.finish();
-                    Intent intent = new Intent(NewHostsActivity.this, NewHostsActivity.class);
-                    startActivity(intent);
+                    if(!Utils.getSp(NewHostsActivity.this).getString("language", null).equals(Locale.getDefault().getLanguage()))
+                    {
+                        NewHostsActivity.this.finish();
+                        Intent intent = new Intent(NewHostsActivity.this, NewHostsActivity.class);
+                        startActivity(intent);
+                    }
                     break;
                 case "theme":
                     NewHostsActivity.this.finish();

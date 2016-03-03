@@ -7,7 +7,7 @@
  * or at https://www.gnu.org/licenses/gpl-2.0.txt
  */
 
-package top.itmp.newhosts;
+package top.itmp.newhosts.util;
 
 import android.text.TextUtils;
 import android.util.Log;

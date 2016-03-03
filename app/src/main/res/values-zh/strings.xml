@@ -44,4 +44,5 @@
     <string name="reset_host_failed">重置为默认hosts失败</string>
     <string name="reset_done">重置为默认hosts.</string>
     <string name="already_reset">已经为默认hosts了.</string>
+    <string name="hosts_not_exists">Hosts文件不存在.</string>
 </resources>

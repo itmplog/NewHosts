@@ -44,4 +44,5 @@
     <string name="reset_host_failed">Reset hosts to default failed.</string>
     <string name="reset_done">Reset hosts done.</string>
     <string name="already_reset">Already Reset to Default.</string>
+    <string name="hosts_not_exists">Hosts Not Exists.</string>
 </resources>

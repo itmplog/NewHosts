@@ -1,4 +1,4 @@
-package top.itmp.newhosts;
+package top.itmp.newhosts.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -21,6 +21,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
+
+import top.itmp.newhosts.NewHostsFragment;
 
 /**
  * Created by hz on 2016/2/23.
@@ -147,7 +149,7 @@ public class DownTask extends AsyncTask<URL, Integer, String> {
                 }
 
                 PreferenceManager.getDefaultSharedPreferences(mContext).edit().putString("lastUpdate", new Date(hosts_file.lastModified()) + "").commit();
-                NewHostsFragment.checkHostsVersionInfo();
+                Utils.checkHostsVersionInfo(mContext ,NewHostsFragment.versionText());
 
                 outputStream.writeBytes("stat -c \"%n %s\"bytes\"\n%z %U:%G\" /system/etc/hosts\n");
                 outputStream.writeBytes("ls -al /system/etc/hosts\n");

@@ -1,4 +1,4 @@
-package top.itmp.newhosts;
+package top.itmp.newhosts.util;
 
 import java.io.DataOutputStream;
 import java.io.InputStream;

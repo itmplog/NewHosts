@@ -1,4 +1,4 @@
-package top.itmp.newhosts;
+package top.itmp.newhosts.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,7 +20,7 @@ import java.net.URLConnection;
 /**
  * Created by hz on 2016/2/23.
  */
-class UpdateCheck extends AsyncTask<URL, Integer, String> {
+public class UpdateCheck extends AsyncTask<URL, Integer, String> {
     ProgressDialog progressDialog;
     int length;
     int hasRead = 0;

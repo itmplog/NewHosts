@@ -1,9 +1,8 @@
 package top.itmp.newhosts;
 
 import android.Manifest;
-import android.content.Context;
+import android.app.Activity;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.v4.content.ContextCompat;
@@ -22,13 +20,17 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.Date;
 
+import top.itmp.newhosts.util.Utils;
+
 /**
  * Created by hz on 2016/2/23.
  */
 public class SettingFragment extends PreferenceFragment {
+    private static Activity main = null;
     private final int REQUEST_WRITE_STORAGE = 112;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        main = getActivity();
         addPreferencesFromResource(R.xml.settings);
         initSummaries(getPreferenceScreen());
     }
@@ -36,13 +38,13 @@ public class SettingFragment extends PreferenceFragment {
     @Override
     public void onPause() {
         super.onPause();
-        PreferenceManager.getDefaultSharedPreferences(getActivity()).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        Utils.getSp(getActivity()).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        PreferenceManager.getDefaultSharedPreferences(getActivity()).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        Utils.getSp(getActivity()).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
@@ -53,14 +55,14 @@ public class SettingFragment extends PreferenceFragment {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     return;
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Need Permission to save file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(main.getApplicationContext(), "Need Permission to save file", Toast.LENGTH_SHORT).show();
                     getPreferenceScreen().getEditor().putBoolean("isBackup", false).apply();
                     getPreferenceScreen().findPreference("isBackup").setSummary("false");
                     ((CheckBoxPreference)getPreferenceScreen().findPreference("isBackup")).setChecked(false);
                     return;
                 }
             default:
-                Toast.makeText(getActivity().getApplicationContext(), "Need Permission to save file", Toast.LENGTH_SHORT).show();
+                Toast.makeText(main.getApplicationContext(), "Need Permission to save file", Toast.LENGTH_SHORT).show();
                 return;
         }
     }
@@ -108,7 +110,7 @@ public class SettingFragment extends PreferenceFragment {
                     editPref.setText(backupFile);
                     pref.setSummary(editPref.getText());
 
-                    //Toast.makeText(getActivity().getApplicationContext(), "SDCard Not Found!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(main.getApplicationContext(), "SDCard Not Found!", Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -125,9 +127,9 @@ public class SettingFragment extends PreferenceFragment {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     requestWritePermissions();
                 }
-                /*if(!(ContextCompat.checkSelfPermission(getActivity(),
+                /*if(!(ContextCompat.checkSelfPermission(main,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)){
-                    //PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(checkPref.getKey(), false).apply();
+                    //NewHostsFragment.getSpEditor().putBoolean(checkPref.getKey(), false).apply();
                     checkPref.getEditor().putBoolean(checkPref.getKey(), false).apply();
                     checkPref.setChecked(!checkPref.isChecked());
                 }*/
@@ -135,13 +137,13 @@ public class SettingFragment extends PreferenceFragment {
         }
         if(pref instanceof SwitchPreference){
             SwitchPreference switchPreference = (SwitchPreference) pref;
-            //switchPreference.setSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(switchPreference.getKey(), false) + "");
+            //switchPreference.setSummary(NewHostsFragment.getSp().getBoolean(switchPreference.getKey(), false) + "");
             switchPreference.setSummary(switchPreference.isChecked() + "");
         }
 
         if(pref instanceof Preference) {
             if (pref.getKey().equals("version")) {
-                String versionInfo = versionInfo(getActivity());
+                String versionInfo = Utils.versionInfo(getActivity());
                 pref.getEditor().putString(pref.getKey(), versionInfo).commit();
                 pref.setSummary(versionInfo);
             }
@@ -169,15 +171,5 @@ public class SettingFragment extends PreferenceFragment {
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
             }
         }
-    }
-    public static String versionInfo(Context c){
-        String version = "";
-        try {
-            PackageInfo pi = c.getPackageManager().getPackageInfo(c.getPackageName(), 0);
-            version = pi.versionName + "-" + pi.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return version;
     }
 }

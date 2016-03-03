@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
@@ -121,7 +122,9 @@ public class SettingFragment extends PreferenceFragment {
             CheckBoxPreference checkPref = (CheckBoxPreference) pref;
                 checkPref.setSummary(checkPref.isChecked() + "");
             if (checkPref.getKey().equals("isBackup") && checkPref.isChecked() && init) {
-                requestWritePermissions();
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestWritePermissions();
+                }
                 /*if(!(ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)){
                     //PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(checkPref.getKey(), false).apply();
@@ -161,8 +164,10 @@ public class SettingFragment extends PreferenceFragment {
         boolean hasPermission = (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermission) {
-            requestPermissions(
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+            }
         }
     }
     public static String versionInfo(Context c){
